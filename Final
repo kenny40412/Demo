@@ -53,4 +53,23 @@ while True:
 
         try:
             
-            data = float(ser.rea...
+            data = float(ser.readline())
+            temp.append(data)
+            
+            PData.add(time.time() - start, data-np.mean(temp))
+            PData2.add(time.time() - start, data)
+        except:
+            pass
+    mean=np.mean(temp)
+    PDataf = np.fft.fft(PData.axis_y) 
+    Hz = np.arange(0, len(PDataf),1)
+    ax.set_xlim(PData.axis_x[0], PData.axis_x[0]+5)
+    ax2.set_xlim(PData.axis_x[0], PData.axis_x[0]+5)
+    line.set_xdata(PData.axis_x)
+    line.set_ydata(PData.axis_y)
+    line2.set_xdata(PData.axis_x)
+    line2.set_ydata(PData.axis_y)
+    line3.set_xdata(Hz)
+    line3.set_ydata((PDataf))
+    fig.canvas.draw()
+    fig.canvas.flush_events()
